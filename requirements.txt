@@ -1,0 +1,7 @@
+tqdm
+requests
+langchain-google-genai
+langchain-community
+tiktoken
+beautifulsoup4
+pytz
