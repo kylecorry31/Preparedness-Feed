@@ -47,7 +47,7 @@ while True:
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ''', (item['source'], item['title'], item['link'], item['guid'], item['pub_date'], summary, item['type'], item['summary'] if 'summary' in item else None))
                 conn.commit()
-        
+
         if new_count > 0:
             print(f"Processed {new_count} new items.")
         else:
@@ -84,5 +84,3 @@ while True:
 
 # Close the database connection
 conn.close()
-
-

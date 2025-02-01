@@ -4,6 +4,7 @@ os.environ["USER_AGENT"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKi
 from langchain_core.prompts import ChatPromptTemplate
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_community.document_loaders import WebBaseLoader
+from langchain_core.documents import Document
 from langchain_google_genai import ChatGoogleGenerativeAI
 import time
 
@@ -36,4 +37,5 @@ def summarize_text(text):
         ("human", "{context}")
     ])
     chain = create_stuff_documents_chain(llm, prompt)
-    return chain.invoke({"context": text})
+    docs = [Document(text)]
+    return chain.invoke({"context": docs})
