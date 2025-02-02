@@ -18,7 +18,10 @@ def load_feed(feed_url, additional_items=[]):
         guid = item.find(f"{namespace}id").text
         pub_date = item.find(f"{namespace}updated").text
         summary = item.find(f"{namespace}summary").text
-        pub_date = int(datetime.strptime(pub_date, "%Y-%m-%dT%H:%M:%S.%fZ").timestamp())
+        try:
+            pub_date = int(datetime.strptime(pub_date, "%Y-%m-%dT%H:%M:%S.%fZ").timestamp())
+        except:
+            pub_date = int(datetime.strptime(pub_date, "%Y-%m-%dT%H:%M:%S%z").timestamp())
         notification = {
             "title": title,
             "link": link,
@@ -27,7 +30,7 @@ def load_feed(feed_url, additional_items=[]):
             "raw_summary": summary
         }
         for i in additional_items:
-            found = item.find(f"{namespace}{i}")
+            found = item.find(i)
             if found is not None:
                 notification[i] = found.text
         items.append(notification)
