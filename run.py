@@ -3,6 +3,8 @@ from sources import executive_orders, health_alert_network, national_weather_ser
 import sqlite3
 from datetime import datetime
 
+# 100 days in the past
+oldest_time = int(datetime.now().timestamp()) - (100 * 24 * 3600)
 
 # Create a table to store the notifications
 conn = sqlite3.connect("notifications.db")
@@ -21,6 +23,10 @@ cursor.execute('''
     )
 ''')
 
+# Delete entries older than 100 days
+cursor.execute("DELETE FROM notifications WHERE published_date < ?", (oldest_time,))
+conn.commit()
+
 while True:
     action = input("Enter 'u' to update items, 'r' to read all items, or 'q' to quit: ")
     if action == 'u':
@@ -33,6 +39,8 @@ while True:
         # Process new items
         new_count = 0
         for item in items:
+            if item['pub_date'] < oldest_time:
+                continue
             # Insert data into the database
             existing = cursor.execute(
                 "SELECT published_date FROM notifications WHERE guid = ? AND source = ?", (item['guid'], item['source'])).fetchone()
