@@ -19,7 +19,7 @@ if "GOOGLE_API_KEY" not in os.environ:
 
 def summarize_url(url):
     time.sleep(0.1)
-    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
     prompt = ChatPromptTemplate.from_messages([
         ("system", "Write a concise summary of the user provided text."),
         ("human", "{context}")
